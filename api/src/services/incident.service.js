@@ -10,9 +10,17 @@ module.exports = {
         const { count } = await incidents.clone().count('id as count').first()
 
         const incidentList = await incidents
+            .join('ngo', 'ngo.id', '=', 'incident.ngo_id')
             .limit(5)
             .offset((page - 1) * 5)
-            .select('*')
+            .select([
+                'incident.*',
+                'ngo.name',
+                'ngo.email',
+                'ngo.whatsapp',
+                'ngo.city',
+                'ngo.uf'
+            ])
 
         return {
             incidentList,
