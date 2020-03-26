@@ -16,9 +16,17 @@ module.exports = {
 
         return response.json({ id })
     },
-    
+
     async list(request, response) {
-        return response.json(await incidentService.list(request.headers.authorization))
+        const { page = 1 } = request.query
+
+        const { incidentList, count } = await incidentService.list(request.headers.authorization, page)
+
+        response.header('X-Total-Count', count)
+
+        console.log(incidentList)
+        
+        return response.json(incidentList)
     },
 
     async delete(request, response) {
@@ -31,7 +39,7 @@ module.exports = {
             .first()
         
         if(!incident)
-            return response.status(404).send()
+            return response.status(400).json({ error: 'No incident found with the given id'})
         else if(incident.ngo_id != ngo_id)
             return response.status(401).json({ error: 'You don\'t have access to this case'})
         else
