@@ -10,6 +10,7 @@ Web, mobile and Api for an application to facilitate donations for NGOs projects
     - Supestest and Jest for Unit and Integration Tests
   - Mobile
     - React Native
+    - Expo
     - Feather Icons
     - Axios for api requests
   - Web
